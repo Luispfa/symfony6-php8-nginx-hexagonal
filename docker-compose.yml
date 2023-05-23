@@ -1,0 +1,49 @@
+version: '3'
+
+services:
+    db:
+        image: mysql:8.0.20
+        container_name: sf6_db
+        command: --default-authentication-plugin=mysql_native_password
+        volumes:
+            - "db_symfony:/var/lib/mysql"
+        environment:
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+            MYSQL_DATABASE: ${MYSQL_DATABASE}
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+        ports:
+            - 3306:3306
+        networks:
+            - symfony
+    php:
+        build:
+            context: .
+            dockerfile: docker/php/Dockerfile
+            args:
+                TIMEZONE: ${TIMEZONE}
+        container_name: sf6_php
+        volumes:
+            - .:/var/www/symfony6/
+        networks:
+            - symfony
+    nginx:
+        # build:
+        #     context: .
+        #     dockerfile: docker/nginx/Dockerfile
+        build: ./docker/nginx
+        container_name: sf6_nginx
+        volumes:
+            - .:/var/www/symfony6/
+        ports:
+            - 80:80
+        networks:
+            - symfony
+
+volumes:
+    # librarifyback_app_sync:
+    #     external: true
+    db_symfony:
+
+networks:
+    symfony:

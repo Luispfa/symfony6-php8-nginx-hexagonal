@@ -11,9 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class LibraryController extends AbstractController
 {
-    /**
-     * @Route("/library/list", name="library_list")
-     */
+    #[Route('/library/list', name: 'library_list')]
     public function __invoke(LoggerInterface $logger): JsonResponse
     {
         $logger->info('List Action called II');

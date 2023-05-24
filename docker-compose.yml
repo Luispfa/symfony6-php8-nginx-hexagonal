@@ -24,17 +24,16 @@ services:
                 TIMEZONE: ${TIMEZONE}
         container_name: sf6_php
         volumes:
-            - .:/var/www/symfony6/
+            - .:/var/www/sf6/
         networks:
             - symfony
     nginx:
-        # build:
-        #     context: .
-        #     dockerfile: docker/nginx/Dockerfile
-        build: ./docker/nginx
+        build:
+            context: .
+            dockerfile: docker/nginx/Dockerfile
         container_name: sf6_nginx
         volumes:
-            - .:/var/www/symfony6/
+            - .:/var/www/sf6/
         ports:
             - 80:80
         networks:
